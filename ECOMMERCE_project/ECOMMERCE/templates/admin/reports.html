@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Sales Reports - Admin Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Sales Reports</h2>
+
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>Total Sales</h5>
+                <h3 class="text-primary">${{ "%.2f"|format(total_sales) }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>Total Orders</h5>
+                <h3 class="text-success">{{ total_orders_count }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body text-center">
+                <h5>Average Order Value</h5>
+                <h3 class="text-info">${{ "%.2f"|format(avg_order_value) }}</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Most Popular Products</h5>
+            </div>
+            <div class="card-body">
+                {% if popular_products %}
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Units Sold</th>
+                                <th>Revenue</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product, total_sold in popular_products %}
+                            <tr>
+                                <td>{{ product.name }}</td>
+                                <td>{{ total_sold }}</td>
+                                <td>${{ "%.2f"|format(product.price * total_sold) }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted">No sales data available</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Sales Overview</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">More detailed sales reports and analytics would be displayed here.</p>
+                <p>This could include:</p>
+                <ul>
+                    <li>Sales trends over time</li>
+                    <li>Revenue by category</li>
+                    <li>Customer demographics</li>
+                    <li>Seasonal patterns</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Store</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 32px;
+        }
+        
+        .search-container {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 30px;
+            padding: 5px 15px;
+            width: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-container i {
+            color: #6a11cb;
+            font-size: 18px;
+        }
+        
+        #search-input {
+            width: 100%;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            outline: none;
+            background: transparent;
+        }
+        
+        .user-actions a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 18px;
+            transition: opacity 0.3s;
+        }
+        
+        .user-actions a:hover {
+            opacity: 0.8;
+        }
+        
+        .page-title {
+            text-align: center;
+            margin: 30px 0;
+            color: #2c3e50;
+            font-size: 32px;
+            position: relative;
+        }
+        
+        .page-title:after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            margin: 10px auto;
+            border-radius: 2px;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+        
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6a11cb;
+            font-size: 40px;
+        }
+        
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .product-description {
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .product-price {
+            font-size: 22px;
+            font-weight: 700;
+            color: #6a11cb;
+            margin-bottom: 10px;
+        }
+        
+        .product-category {
+            display: inline-block;
+            background: #e8eeff;
+            color: #2575fc;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .product-stock {
+            color: #27ae60;
+            font-weight: 500;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .product-stock i {
+            margin-right: 5px;
+        }
+        
+        .view-details {
+            display: inline-block;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+        
+        .view-details:hover {
+            opacity: 0.9;
+        }
+        
+        .no-results {
+            text-align: center;
+            grid-column: 1 / -1;
+            padding: 40px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-top: 20px;
+        }
+        
+        .no-results i {
+            font-size: 50px;
+            color: #bdc3c7;
+            margin-bottom: 15px;
+        }
+        
+        .no-results h3 {
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            color: #7f8c8d;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .search-container {
+                width: 100%;
+                margin: 15px 0;
+            }
+            
+            .user-actions {
+                margin-top: 15px;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <i class="fas fa-shopping-bag"></i>
+                <span>ShopNow</span>
+            </div>
+            
+            <div class="search-container">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search products...">
+            </div>
+            
+            <div class="user-actions">
+                <a href="#"><i class="fas fa-user"></i></a>
+                <a href="#"><i class="fas fa-shopping-cart"></i></a>
+            </div>
+        </div>
+    </header>
+    
+    <div class="container">
+        <h1 class="page-title">All Products</h1>
+        
+        <div class="products-grid" id="products-container">
+            <!-- Product cards will be generated here -->
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2023 E-Commerce Store. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Product data
+        const products = [
+            {
+                title: "Wireless Headphones",
+                description: "High-quality wireless headphones with noise cancellation",
+                price: "$199.99",
+                category: "Electronics",
+                stock: 23,
+                icon: "fas fa-headphones"
+            },
+            {
+                title: "Smartphone",
+                description: "Latest smartphone with advanced camera features",
+                price: "$899.99",
+                category: "Electronics",
+                stock: 14,
+                icon: "fas fa-mobile-alt"
+            },
+            {
+                title: "Custom T-Shirt",
+                description: "Comfortable cotton t-shirt in various colors",
+                price: "$24.99",
+                category: "Clothing",
+                stock: 30,
+                icon: "fas fa-tshirt"
+            },
+            {
+                title: "Laptop",
+                description: "Thin and light laptop with powerful performance",
+                price: "$1299.99",
+                category: "Electronics",
+                stock: 8,
+                icon: "fas fa-laptop"
+            },
+            {
+                title: "Running Shoes",
+                description: "Comfortable running shoes with extra cushioning",
+                price: "$89.99",
+                category: "Footwear",
+                stock: 17,
+                icon: "fas fa-shoe-prints"
+            },
+            {
+                title: "Smart Watch",
+                description: "Track your fitness and receive notifications",
+                price: "$249.99",
+                category: "Electronics",
+                stock: 12,
+                icon: "fas fa-clock"
+            }
+        ];
+
+        // Function to render products
+        function renderProducts(productsToRender) {
+            const productsContainer = document.getElementById('products-container');
+            productsContainer.innerHTML = '';
+            
+            if (productsToRender.length === 0) {
+                productsContainer.innerHTML = `
+                    <div class="no-results">
+                        <i class="fas fa-search"></i>
+                        <h3>No products found</h3>
+                        <p>Try adjusting your search terms</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            productsToRender.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                
+                productCard.innerHTML = `
+                    <div class="product-image">
+                        <i class="${product.icon}"></i>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.title}</h3>
+                        <p class="product-description">${product.description}</p>
+                        <div class="product-price">${product.price}</div>
+                        <span class="product-category">${product.category}</span>
+                        <div class="product-stock">
+                            <i class="fas fa-check-circle"></i>
+                            ${product.stock} in stock
+                        </div>
+                        <a href="#" class="view-details">View Details</a>
+                    </div>
+                `;
+                
+                productsContainer.appendChild(productCard);
+            });
+        }
+        
+        // Function to filter products based on search input
+        function filterProducts() {
+            const searchText = document.getElementById('search-input').value.toLowerCase();
+            
+            if (searchText.trim() === '') {
+                renderProducts(products);
+                return;
+            }
+            
+            const filteredProducts = products.filter(product => {
+                return (
+                    product.title.toLowerCase().includes(searchText) ||
+                    product.description.toLowerCase().includes(searchText) ||
+                    product.category.toLowerCase().includes(searchText)
+                );
+            });
+            
+            renderProducts(filteredProducts);
+        }
+        
+        // Initial render of all products
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts(products);
+            
+            // Add event listener for search input
+            document.getElementById('search-input').addEventListener('input', filterProducts);
+        });
+    </script>
+</body>
+</html>

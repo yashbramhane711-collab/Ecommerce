@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }} - E-Commerce Store{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="text-center">{{ title }}</h3>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.name.label(class="form-label") }}
+                            {% if form.name.errors %}
+                                {{ form.name(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.name.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.name(class="form-control") }}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.category.label(class="form-label") }}
+                            {% if form.category.errors %}
+                                {{ form.category(class="form-select is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.category.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.category(class="form-select") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            {{ form.price.label(class="form-label") }}
+                            {% if form.price.errors %}
+                                {{ form.price(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.price.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.price(class="form-control", step="0.01") }}
+                            {% endif %}
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            {{ form.stock.label(class="form-label") }}
+                            {% if form.stock.errors %}
+                                {{ form.stock(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.stock.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.stock(class="form-control") }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.description.label(class="form-label") }}
+                        {% if form.description.errors %}
+                            {{ form.description(class="form-control is-invalid", rows=4) }}
+                            <div class="invalid-feedback">
+                                {% for error in form.description.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.description(class="form-control", rows=4) }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        {{ form.image.label(class="form-label") }}
+                        {% if form.image.errors %}
+                            {{ form.image(class="form-control is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.image.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.image(class="form-control") }}
+                        {% endif %}
+                        <div class="form-text">Enter a URL for the product image (optional)</div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

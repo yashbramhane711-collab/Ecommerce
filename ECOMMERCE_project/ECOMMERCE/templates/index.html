@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section bg-primary text-white py-5 mb-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="display-4">Welcome to Our Store</h1>
+                <p class="lead">Discover amazing products at great prices.</p>
+                <a href="{{ url_for('product.product_list') }}" class="btn btn-light btn-lg">Shop Now</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Featured Products -->
+<div class="row mb-5">
+    <div class="col-12">
+        <h2 class="mb-4">Featured Products</h2>
+    </div>
+    {% for product in products %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            {% if product.image %}
+            <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
+            {% else %}
+            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                <i class="bi bi-image" style="font-size: 3rem;"></i>
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description|truncate(100) }}</p>
+                <p class="card-text"><strong>${{ "%.2f"|format(product.price) }}</strong></p>
+            </div>
+            <div class="card-footer">
+                <a href="{{ url_for('product.product_detail', id=product.id) }}" class="btn btn-primary">View Details</a>
+                {% if current_user.is_authenticated %}
+                <form action="{{ url_for('cart.add_to_cart', product_id=product.id) }}" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-success">Add to Cart</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Categories -->
+<div class="row">
+    <div class="col-12">
+        <h2 class="mb-4">Shop by Category</h2>
+    </div>
+    <div class="col-md-2 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-laptop" style="font-size: 2rem;"></i>
+                <h5 class="card-title mt-2">Electronics</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-shirt" style="font-size: 2rem;"></i>
+                <h5 class="card-title mt-2">Clothing</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-book" style="font-size: 2rem;"></i>
+                <h5 class="card-title mt-2">Books</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-house" style="font-size: 2rem;"></i>
+                <h5 class="card-title mt-2">Home</h5>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2 mb-3">
+        <div class="card text-center">
+            <div class="card-body">
+                <i class="bi bi-bicycle" style="font-size: 2rem;"></i>
+                <h5 class="card-title mt-2">Sports</h5>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

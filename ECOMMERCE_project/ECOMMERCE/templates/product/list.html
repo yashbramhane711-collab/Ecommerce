@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block title %}Products - E-Commerce Store{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h2>All Products</h2>
+    </div>
+    <div class="col-md-6 text-end">
+        <form action="{{ url_for('product.search_products') }}" method="GET" class="d-flex">
+            <input type="text" name="q" class="form-control me-2" placeholder="Search products..." value="{{ request.args.get('q', '') }}">
+            <button type="submit" class="btn btn-outline-primary">Search</button>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    {% for product in products.items %}
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            {% if product.image %}
+            <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}" style="height: 200px; object-fit: cover;">
+            {% else %}
+            <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                <i class="bi bi-image" style="font-size: 3rem;"></i>
+            </div>
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text">{{ product.description|truncate(100) }}</p>
+                <p class="card-text">
+                    <strong>${{ "%.2f"|format(product.price) }}</strong>
+                    <span class="badge bg-{% if product.stock > 10 %}success{% elif product.stock > 0 %}warning{% else %}danger{% endif %} float-end">
+                        {{ product.stock }} in stock
+                    </span>
+                </p>
+                <p class="card-text">
+                    <small class="text-muted">Category: {{ product.category }}</small>
+                </p>
+            </div>
+            <div class="card-footer">
+                <a href="{{ url_for('product.product_detail', id=product.id) }}" class="btn btn-primary btn-sm">View Details</a>
+                {% if current_user.is_authenticated and product.stock > 0 %}
+                <form action="{{ url_for('cart.add_to_cart', product_id=product.id) }}" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-success btn-sm">Add to Cart</button>
+                </form>
+                {% endif %}
+                {% if current_user.is_authenticated and current_user.is_admin %}
+                <a href="{{ url_for('product.edit_product', id=product.id) }}" class="btn btn-warning btn-sm">Edit</a>
+                <a href="{{ url_for('product.delete_product', id=product.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Pagination -->
+{% if products.pages > 1 %}
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if products.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('product.product_list', page=products.prev_num) }}">Previous</a>
+        </li>
+        {% endif %}
+        
+        {% for page_num in products.iter_pages() %}
+            {% if page_num %}
+                <li class="page-item {% if page_num == products.page %}active{% endif %}">
+                    <a class="page-link" href="{{ url_for('product.product_list', page=page_num) }}">{{ page_num }}</a>
+                </li>
+            {% else %}
+                <li class="page-item disabled"><span class="page-link">...</span></li>
+            {% endif %}
+        {% endfor %}
+        
+        {% if products.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('product.product_list', page=products.next_num) }}">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+
+{% if current_user.is_authenticated and current_user.is_admin %}
+<div class="mt-4">
+    <a href="{{ url_for('product.add_product') }}" class="btn btn-primary">Add New Product</a>
+</div>
+{% endif %}
+{% endblock %}

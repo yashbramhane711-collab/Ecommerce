@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Users - Admin Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Manage Users</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Admin</th>
+                <th>Orders</th>
+                <th>Registered</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% if user.is_admin %}
+                    <span class="badge bg-success">Yes</span>
+                    {% else %}
+                    <span class="badge bg-secondary">No</span>
+                    {% endif %}
+                </td>
+                <td>{{ user.orders|length }}</td>
+                <td>{{ user.id }}</td> {# This would normally be a registration date #}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
